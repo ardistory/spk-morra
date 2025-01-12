@@ -8,6 +8,9 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
+import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
+import { Play } from 'lucide-react';
 
 export default function Home() {
     const rules = [
@@ -32,10 +35,11 @@ export default function Home() {
                     <p>Selamat Datang di Website Sistem Penunjang Keputusan</p>
                     <p>Pembelian Rumah Menggunakan Metode <span className={'text-6xl bg-black/70 text-white rounded-full px-7'}>MORRA</span></p>
                 </div>
-
-                <Button onClick={() => router.get(route('hitung'))}>
-                    Mulai Hitung
+                <Badge variant={'secondary'} className={'text-xl'}>Temukan solusi terbaik</Badge>
+                <Button className={'bg-blue-500'} onClick={() => router.get(route('hitung'))}>
+                    <Play />Mulai Hitung
                 </Button>
+                <Separator className={'bg-gray-300'} />
                 <div>
                     <Card>
                         <CardHeader>
