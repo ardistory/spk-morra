@@ -29,7 +29,7 @@ export default function AppLayout({ children, title }) {
             <nav className={'w-full h-14 flex items-center z-10 bg-white'}>
                 <div className={'container mx-auto p-3 flex gap-2 justify-center'}>
                     {menus.map(menu => (
-                        <Button variant={'outline'} onClick={() => router.get(route(menu.route))}>
+                        <Button key={menu.route} variant={'outline'} onClick={() => router.get(route(menu.route))}>
                             {menu.icon}{menu.title}
                         </Button>
                     ))}
