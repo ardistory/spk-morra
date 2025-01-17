@@ -17,10 +17,10 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { Separator } from '@/components/ui/separator';
+import { toast, useToast } from '@/hooks/use-toast';
 import { useForm } from '@inertiajs/react';
-import { Calculator, CirclePlus, Play } from 'lucide-react';
-import { useState } from 'react';
+import { Calculator, CirclePlus, Save, Trash } from 'lucide-react';
+import { useEffect } from 'react';
 
 // Komponen Form Kriteria
 function KriteriaForm({ kriteria, setKriteria }) {
@@ -32,6 +32,11 @@ function KriteriaForm({ kriteria, setKriteria }) {
 
     const handleAddKriteria = () => {
         setKriteria([...kriteria, { nama_kriteria: "", bobot: 0, jenis: "benefit" }]);
+    };
+
+    const handleDeleteKriteria = (index) => {
+        const updatedKriteria = kriteria.filter((_, i) => i !== index);
+        setKriteria(updatedKriteria);
     };
 
     return (
@@ -62,17 +67,25 @@ function KriteriaForm({ kriteria, setKriteria }) {
                                 onChange={(e) => handleKriteriaChange(index, 'bobot', parseFloat(e.target.value))}
                             />
                         </div>
-                        <div className="flex flex-col space-y-1.5">
-                            <Label htmlFor={`jenis-${index}`}>Cost/Benefit</Label>
-                            <Select onValueChange={(value) => handleKriteriaChange(index, 'jenis', value)}>
-                                <SelectTrigger id={`jenis-${index}`}>
-                                    <SelectValue placeholder="Cost/Benefit" value={k.jenis} />
-                                </SelectTrigger>
-                                <SelectContent position="popper">
-                                    <SelectItem value="cost">Cost</SelectItem>
-                                    <SelectItem value="benefit">Benefit</SelectItem>
-                                </SelectContent>
-                            </Select>
+                        <div className={'flex items-center justify-start gap-4'}>
+                            <div className="flex flex-col space-y-1.5">
+                                <Label htmlFor={`jenis-${index}`}>Cost/Benefit</Label>
+                                <Select onValueChange={(value) => handleKriteriaChange(index, 'jenis', value)}>
+                                    <SelectTrigger id={`jenis-${index}`}>
+                                        <SelectValue placeholder="Cost/Benefit" value={k.jenis} />
+                                    </SelectTrigger>
+                                    <SelectContent position="popper">
+                                        <SelectItem value="cost">Cost</SelectItem>
+                                        <SelectItem value="benefit">Benefit</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                            <div className="flex flex-col space-y-1.5">
+                                <Label>Hapus</Label>
+                                <Button variant="destructive" size="icon" onClick={() => handleDeleteKriteria(index)}>
+                                    <Trash />
+                                </Button>
+                            </div>
                         </div>
                     </div>
                 ))}
@@ -86,7 +99,6 @@ function KriteriaForm({ kriteria, setKriteria }) {
     );
 }
 
-// Komponen Form Data Rumah
 function RumahForm({ kriteria, rumah, setRumah }) {
     const handleRumahChange = (index, field, value) => {
         const updatedRumah = [...rumah];
@@ -100,6 +112,11 @@ function RumahForm({ kriteria, rumah, setRumah }) {
             newRumah[`kriteria${i + 1}`] = 0;
         });
         setRumah([...rumah, newRumah]);
+    };
+
+    const handleDeleteRumah = (index) => {
+        const updatedRumah = rumah.filter((_, i) => i !== index);
+        setRumah(updatedRumah);
     };
 
     return (
@@ -133,6 +150,12 @@ function RumahForm({ kriteria, rumah, setRumah }) {
                                     />
                                 </div>
                             ))}
+                            <div className="flex flex-col space-y-1.5">
+                                <Label>Hapus</Label>
+                                <Button variant="destructive" size="icon" onClick={() => handleDeleteRumah(rumahIndex)}>
+                                    <Trash />
+                                </Button>
+                            </div>
                         </div>
                     </div>
                 ))}
@@ -146,7 +169,6 @@ function RumahForm({ kriteria, rumah, setRumah }) {
     );
 }
 
-// Komponen Hasil Perhitungan
 function Hasil({ results }) {
     return (
         <Card className={'shadow-lg'}>
@@ -185,33 +207,45 @@ function Hasil({ results }) {
 }
 
 export default function Hitung() {
-    const { data, setData, post, processing, errors } = useForm({
+    const { data, setData, post, processing, clearErrors, errors } = useForm({
         kriteria: [],
         rumah: [],
         results: [],
+        userName: '',
+        showSaveButton: false,
     });
-    const [kriteria, setKriteria] = useState(data.kriteria);
-    const [rumah, setRumah] = useState(data.rumah);
-    const [results, setResults] = useState(data.results);
+    const { toast } = useToast();
+
+    useEffect(() => {
+        if (errors) {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    }, [errors]);
+
 
     const hitung = () => {
-        if (!kriteria.length || !rumah.length) {
-            alert("Kriteria dan data rumah harus diisi!");
+        clearErrors();
+        if (!data.kriteria.length || !data.rumah.length) {
+            toast({
+                title: "Hitung Gagal!",
+                description: "Kriteria dan data rumah harus diisi!",
+                variant: "destructive",
+            });
             return;
         }
 
-        const totalBobot = kriteria.reduce((sum, k) => sum + parseFloat(k.bobot), 0);
-        const normalizedWeights = kriteria.map(k => k.bobot / totalBobot);
+        const totalBobot = data.kriteria.reduce((sum, k) => sum + parseFloat(k.bobot), 0);
+        const normalizedWeights = data.kriteria.map(k => k.bobot / totalBobot);
 
-        const normalizedData = rumah.map(r => {
+        const normalizedData = data.rumah.map(r => {
             const normalized = { nama_rumah: r.nama_rumah, score: 0 };
-            kriteria.forEach((k, i) => {
+            data.kriteria.forEach((k, i) => {
                 const value = parseFloat(r[`kriteria${i + 1}`]);
                 if (k.jenis === "benefit") {
-                    const maxValue = Math.max(...rumah.map(r => parseFloat(r[`kriteria${i + 1}`])));
+                    const maxValue = Math.max(...data.rumah.map(r => parseFloat(r[`kriteria${i + 1}`])));
                     normalized[`kriteria${i + 1}`] = value / maxValue;
                 } else {
-                    const minValue = Math.min(...rumah.map(r => parseFloat(r[`kriteria${i + 1}`])));
+                    const minValue = Math.min(...data.rumah.map(r => parseFloat(r[`kriteria${i + 1}`])));
                     normalized[`kriteria${i + 1}`] = minValue / value;
                 }
             });
@@ -220,32 +254,74 @@ export default function Hitung() {
 
         const finalResults = normalizedData.map((n, ri) => {
             let score = 0;
-            kriteria.forEach((_, ki) => {
+            data.kriteria.forEach((_, ki) => {
                 score += n[`kriteria${ki + 1}`] * normalizedWeights[ki];
             });
             return { nama_rumah: n.nama_rumah, score };
         });
 
+
         finalResults.sort((a, b) => b.score - a.score);
-        setResults(finalResults);
+
+        setData('results', finalResults);
+        setData('showSaveButton', true);
+    };
+
+    const handleSave = () => {
+        post('/hitung', {
+            preserveScroll: true,
+            onSuccess: () => {
+                toast({
+                    title: "Berhasil!",
+                    description: "Simpan data ke server berhasil!",
+                });
+            }
+        });
+    };
+
+    const handleUserNameChange = (e) => {
+        setData('userName', e.target.value);
+    };
+
+    const handleKriteriaChange = (updatedKriteria) => {
+        setData('kriteria', updatedKriteria);
+    };
+
+    const handleRumahChange = (updatedRumah) => {
+        setData('rumah', updatedRumah);
     };
 
     return (
         <AppLayout title={'Hitung'}>
             <div className={'p-4 container mx-auto'}>
-                <div className={'mb-8'}>
-                    <KriteriaForm kriteria={kriteria} setKriteria={setKriteria} />
+                <div className={'mb-4'}>
+                    <Label htmlFor="userName">Nama Pengguna</Label>
+                    <Input
+                        id="userName"
+                        placeholder="Masukkan Nama Pengguna"
+                        value={data.userName}
+                        onChange={handleUserNameChange}
+                    />
+                    {errors.userName && <p className="text-red-500 text-sm">{errors.userName}</p>}
                 </div>
                 <div className={'mb-8'}>
-                    <RumahForm kriteria={kriteria} rumah={rumah} setRumah={setRumah} />
+                    <KriteriaForm kriteria={data.kriteria} setKriteria={handleKriteriaChange} />
+                </div>
+                <div className={'mb-8'}>
+                    <RumahForm kriteria={data.kriteria} rumah={data.rumah} setRumah={handleRumahChange} />
                 </div>
                 <div className={'mb-8 flex justify-center'}>
                     <Button onClick={hitung}>
                         <Calculator />Hitung
                     </Button>
+                    {data.showSaveButton && (
+                        <Button className="ml-4" variant={'outline'} onClick={handleSave} disabled={processing}>
+                            <Save />Simpan Ke Arsip
+                        </Button>
+                    )}
                 </div>
                 <div>
-                    <Hasil results={results} />
+                    <Hasil results={data.results} />
                 </div>
             </div>
         </AppLayout>

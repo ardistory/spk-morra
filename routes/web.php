@@ -1,7 +1,7 @@
 <?php
 
+use App\Http\Controllers\HitungController;
 use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -12,6 +12,8 @@ Route::get('/', function () {
 Route::get('/hitung', function () {
     return Inertia::render('Hitung');
 })->name('hitung');
+
+Route::post('/hitung', [HitungController::class, 'store'])->name('hitung');
 
 Route::get('/arsip', function () {
     return Inertia::render('Arsip');
