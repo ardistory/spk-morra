@@ -16,6 +16,7 @@ Route::get('/hitung', function () {
 Route::post('/hitung', [HitungController::class, 'store'])->name('hitung');
 
 Route::get('/arsip', [HitungController::class, 'index'])->name('arsip');
+Route::get('/arsip/{uuid}', [HitungController::class, 'detail'])->name('arsip_detail');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

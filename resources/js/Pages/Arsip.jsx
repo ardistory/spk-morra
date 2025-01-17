@@ -10,12 +10,12 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
+import { router } from '@inertiajs/react';
 
 export default function Arsip({ hasilPerhitungans }) {
-    console.log(hasilPerhitungans);
     return (
         <AppLayout title={'Arsip'}>
-            <div className={'grid grid-cols-4 gap-10 mt-10 relative before:w-96 before:h-96 before:absolute before:rounded-full before:bg-black before:left-[50%] before:top-[50%] before:translate-x-[-50%] before:translate-y-[-50%] before:blur-[200px] before:-z-10'}>
+            <div className={'grid grid-cols-1 md:grid-cols-4 gap-10 mt-10 relative before:w-96 before:h-96 before:absolute before:rounded-full before:bg-black before:left-[50%] before:top-[50%] before:translate-x-[-50%] before:translate-y-[-50%] before:blur-[200px] before:-z-10'}>
                 {hasilPerhitungans.map((hasil, index) => (
                     <Card key={index} className={'shadow-lg'}>
                         <CardHeader>
@@ -27,7 +27,7 @@ export default function Arsip({ hasilPerhitungans }) {
                                 <div className={'grid gap-2 items-center justify-center'}>
                                     {hasil.results && JSON.parse(hasil.results).map((result, resIndex) => (
                                         <div key={resIndex}>
-                                            <p>Terbaik {resIndex + 1} : {result.nama_rumah} ({result.score.toFixed(2)})</p>
+                                            <p>{resIndex + 1}. {result.nama_rumah} ({result.score.toFixed(2)})</p>
                                             {resIndex < hasil.results.length - 1 && <Separator />}
                                         </div>
                                     ))}
@@ -35,47 +35,9 @@ export default function Arsip({ hasilPerhitungans }) {
                             </Card>
                         </CardContent>
                         <CardFooter>
-                            <Dialog>
-                                <DialogTrigger asChild>
-                                    <Button>
-                                        Detail
-                                    </Button>
-                                </DialogTrigger>
-                                <DialogContent>
-                                    <DialogHeader>
-                                        <DialogTitle>Detail Perhitungan</DialogTitle>
-                                        <DialogDescription>
-                                            <div className="mb-4">
-                                                <h4 className="font-semibold mb-2">Kriteria</h4>
-                                                {hasil.kriteria && JSON.parse(hasil.kriteria).map((kriteria, index) => (
-                                                    <p key={index}>
-                                                        {kriteria.nama_kriteria}: Bobot {kriteria.bobot}, Jenis: {kriteria.jenis}
-                                                    </p>
-                                                ))}
-                                            </div>
-                                            <div className="mb-4">
-                                                <h4 className="font-semibold mb-2">Data Rumah</h4>
-                                                {hasil.rumah && JSON.parse(hasil.rumah).map((rumah, index) => (
-                                                    <div key={index} className='mb-2'>
-                                                        <p className="font-semibold">{rumah.nama_rumah}</p>
-                                                        {Object.keys(rumah).filter(key => key.startsWith('kriteria')).map(key => (
-                                                            <p key={key}>{key}: {rumah[key]}</p>
-                                                        ))}
-                                                    </div>
-                                                ))}
-                                            </div>
-                                            <div>
-                                                <h4 className="font-semibold mb-2">Hasil Perhitungan</h4>
-                                                {hasil.results && JSON.parse(hasil.results).map((result, resIndex) => (
-                                                    <p key={resIndex}>
-                                                        Terbaik {resIndex + 1} : {result.nama_rumah} ({result.score.toFixed(2)})
-                                                    </p>
-                                                ))}
-                                            </div>
-                                        </DialogDescription>
-                                    </DialogHeader>
-                                </DialogContent>
-                            </Dialog>
+                            <Button onClick={() => router.visit(route('arsip_detail', { uuid: hasil.uuid }))}>
+                                Detail
+                            </Button>
                         </CardFooter>
                     </Card>
                 ))}

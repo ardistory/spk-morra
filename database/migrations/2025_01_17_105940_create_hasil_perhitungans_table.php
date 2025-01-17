@@ -11,7 +11,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('hasil_perhitungans', function (Blueprint $table) {
-            $table->id();
+            $table->uuid()->primary();
             $table->string('user_name');
             $table->json('kriteria');
             $table->json('rumah');

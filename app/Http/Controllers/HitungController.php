@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\HasilPerhitungan;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 
 class HitungController extends Controller
@@ -17,24 +16,31 @@ class HitungController extends Controller
         ]);
     }
 
+    public function detail($uuid)
+    {
+        $details = HasilPerhitungan::query()->where('uuid', '=', $uuid)->get();
+        return Inertia::render('ArsipDetail', [
+            'details' => $details
+        ]);
+    }
+
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+
+        $requestValidated = $request->validate([
+            'uuid' => 'required|uuid',
             'userName' => 'required|string|max:255',
             'kriteria' => 'required|array',
             'rumah' => 'required|array',
             'results' => 'required|array',
         ]);
 
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
-
         $hasilPerhitungan = new HasilPerhitungan();
-        $hasilPerhitungan->user_name = $request->userName;
-        $hasilPerhitungan->kriteria = json_encode($request->kriteria);
-        $hasilPerhitungan->rumah = json_encode($request->rumah);
-        $hasilPerhitungan->results = json_encode($request->results);
+        $hasilPerhitungan->uuid = $requestValidated['uuid'];
+        $hasilPerhitungan->user_name = $requestValidated['userName'];
+        $hasilPerhitungan->kriteria = json_encode($requestValidated['kriteria']);
+        $hasilPerhitungan->rumah = json_encode($requestValidated['rumah']);
+        $hasilPerhitungan->results = json_encode($requestValidated['results']);
         $hasilPerhitungan->save();
     }
 }

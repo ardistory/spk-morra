@@ -18,11 +18,10 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { toast, useToast } from '@/hooks/use-toast';
-import { useForm } from '@inertiajs/react';
+import { router, useForm } from '@inertiajs/react';
 import { Calculator, CirclePlus, Save, Trash } from 'lucide-react';
 import { useEffect } from 'react';
 
-// Komponen Form Kriteria
 function KriteriaForm({ kriteria, setKriteria }) {
     const handleKriteriaChange = (index, field, value) => {
         const updatedKriteria = [...kriteria];
@@ -212,6 +211,7 @@ export default function Hitung() {
         rumah: [],
         results: [],
         userName: '',
+        uuid: '',
         showSaveButton: false,
     });
     const { toast } = useToast();
@@ -222,6 +222,11 @@ export default function Hitung() {
         }
     }, [errors]);
 
+    function generateUUID() {
+        return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+            (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+        );
+    }
 
     const hitung = () => {
         clearErrors();
@@ -265,6 +270,7 @@ export default function Hitung() {
 
         setData('results', finalResults);
         setData('showSaveButton', true);
+        setData('uuid', generateUUID());
     };
 
     const handleSave = () => {
