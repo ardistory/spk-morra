@@ -126,9 +126,9 @@ function Hasil({ results }) {
     );
 }
 
-export default function ArsipDetail({ details }) {
+export default function ArsipDetail({ details, auth }) {
     return (
-        <AppLayout title={'Arsip Detail'}>
+        <AppLayout title={'Arsip Detail'} auth={auth.user}>
             <div className={'pt-16 p-4 container mx-auto'}>
                 <div className={'mb-4'}>
                     <Label htmlFor="userName">Nama Pengguna</Label>

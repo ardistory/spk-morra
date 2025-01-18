@@ -8,9 +8,8 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
-import { CirclePlay } from 'lucide-react';
 import Background from '@/assets/img/Perumahan.jpg';
-export default function Home() {
+export default function Home({ auth }) {
     const rules = [
         {
             rule: "Aturan satu"
@@ -27,10 +26,10 @@ export default function Home() {
     ];
 
     return (
-        <AppLayout title={'Home'}>
+        <AppLayout title={'Home'} auth={auth.user}>
             <img src={Background} className={'absolute top-0 left-0 -z-10 w-full h-full md:h-screen brightness-[.3] object-cover'} />
             <div className={'mx-0 h-dvh flex flex-col items-center justify-center gap-5'}>
-                <div className={'text-5xl font-extrabold'}>
+                <div className={'text-4xl md:text-8xl text-center font-extrabold'}>
                     <p className={'text-white'}>Selamat Datang di Website Perhitungan Rumah di Tangerang Selatan</p>
                 </div>
                 <Button className={'bg-blue-500'} onClick={() => router.get(route('hitung'))}>

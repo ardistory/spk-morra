@@ -1,5 +1,5 @@
 import defaultTheme from 'tailwindcss/defaultTheme';
-import forms from '@tailwindcss/forms';
+// import forms from '@tailwindcss/forms';
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -12,21 +12,21 @@ export default {
     ],
 
     theme: {
-    	extend: {
-    		fontFamily: {
-    			sans: [
-    				'Figtree',
+        extend: {
+            fontFamily: {
+                sans: [
+                    'Figtree',
                     ...defaultTheme.fontFamily.sans
                 ]
-    		},
-    		borderRadius: {
-    			lg: 'var(--radius)',
-    			md: 'calc(var(--radius) - 2px)',
-    			sm: 'calc(var(--radius) - 4px)'
-    		},
-    		colors: {}
-    	}
+            },
+            borderRadius: {
+                lg: 'var(--radius)',
+                md: 'calc(var(--radius) - 2px)',
+                sm: 'calc(var(--radius) - 4px)'
+            },
+            colors: {}
+        }
     },
-
-    plugins: [forms, require("tailwindcss-animate")],
+    // plugins: [forms, require("tailwindcss-animate")],
+    plugins: [require("tailwindcss-animate")],
 };

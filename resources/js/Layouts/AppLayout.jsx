@@ -1,9 +1,9 @@
-import { Link, router } from '@inertiajs/react';
+import { router } from '@inertiajs/react';
 import HeadLayout from './HeadLayout';
 import { Button } from '@/components/ui/button';
-import { Calculator, House, Package2 } from 'lucide-react';
+import { Calculator, House, Package2, Power } from 'lucide-react';
 
-export default function AppLayout({ children, title }) {
+export default function AppLayout({ children, title, auth }) {
     const menus = [
         {
             title: 'Home',
@@ -33,6 +33,12 @@ export default function AppLayout({ children, title }) {
                             {menu.icon}{menu.title}
                         </Button>
                     ))}
+
+                    {auth && (
+                        <Button variant={'destructive'} onClick={() => router.post(route('logout'))}>
+                            <Power />Logout
+                        </Button>
+                    )}
                 </div>
             </nav>
 

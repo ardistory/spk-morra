@@ -205,7 +205,7 @@ function Hasil({ results }) {
     );
 }
 
-export default function Hitung() {
+export default function Hitung({ auth }) {
     const { data, setData, post, processing, clearErrors, errors } = useForm({
         kriteria: [],
         rumah: [],
@@ -298,7 +298,7 @@ export default function Hitung() {
     };
 
     return (
-        <AppLayout title={'Hitung'}>
+        <AppLayout title={'Hitung'} auth={auth.user}>
             <div className={'pt-16 p-4 container mx-auto'}>
                 <div className={'mb-4'}>
                     <Label htmlFor="userName">Nama Pengguna</Label>

@@ -16,12 +16,17 @@ Route::get('/hitung', function () {
 Route::post('/hitung', [HitungController::class, 'store'])->name('hitung');
 
 Route::get('/arsip', [HitungController::class, 'index'])->name('arsip');
+Route::delete('/arsip/{uuid}', [HitungController::class, 'delete'])->name('arsip_delete');
 Route::get('/arsip/{uuid}', [HitungController::class, 'detail'])->name('arsip_detail');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/dashboard', function () {
+        Inertia::render('Admin/Dashboard');
+    })->name('dashboard');
 });
 
 require __DIR__ . '/auth.php';

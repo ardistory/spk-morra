@@ -16,6 +16,12 @@ class HitungController extends Controller
         ]);
     }
 
+    public function delete($uuid)
+    {
+        $deletedRows = HasilPerhitungan::query()->where('uuid', '=', $uuid)->delete();
+        ($deletedRows > 0) ? response(status: 200) : response(status: 404);
+    }
+
     public function detail($uuid)
     {
         $details = HasilPerhitungan::query()->where('uuid', '=', $uuid)->get();
