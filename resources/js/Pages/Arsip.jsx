@@ -15,7 +15,7 @@ import { router } from '@inertiajs/react';
 export default function Arsip({ hasilPerhitungans }) {
     return (
         <AppLayout title={'Arsip'}>
-            <div className={'grid grid-cols-1 md:grid-cols-4 gap-10 mt-10 relative before:w-96 before:h-96 before:absolute before:rounded-full before:bg-black before:left-[50%] before:top-[50%] before:translate-x-[-50%] before:translate-y-[-50%] before:blur-[200px] before:-z-10'}>
+            <div className={'pt-16 grid grid-cols-1 md:grid-cols-4 gap-10 mt-10 relative before:w-96 before:h-96 before:absolute before:rounded-full before:bg-black before:left-[50%] before:top-[50%] before:translate-x-[-50%] before:translate-y-[-50%] before:blur-[200px] before:-z-10'}>
                 {hasilPerhitungans.map((hasil, index) => (
                     <Card key={index} className={'shadow-lg'}>
                         <CardHeader>

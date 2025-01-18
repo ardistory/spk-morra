@@ -26,7 +26,7 @@ export default function AppLayout({ children, title }) {
         <>
             <HeadLayout title={title} />
 
-            <nav className={'w-full h-14 flex items-center z-10 bg-white'}>
+            <nav className={'fixed top-0 w-full h-14 flex items-center z-10 bg-white'}>
                 <div className={'container mx-auto p-3 flex gap-2 justify-center'}>
                     {menus.map(menu => (
                         <Button key={menu.route} variant={'outline'} onClick={() => router.get(route(menu.route))}>

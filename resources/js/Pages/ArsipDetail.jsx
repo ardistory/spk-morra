@@ -129,7 +129,7 @@ function Hasil({ results }) {
 export default function ArsipDetail({ details }) {
     return (
         <AppLayout title={'Arsip Detail'}>
-            <div className={'p-4 container mx-auto'}>
+            <div className={'pt-16 p-4 container mx-auto'}>
                 <div className={'mb-4'}>
                     <Label htmlFor="userName">Nama Pengguna</Label>
                     <Input
