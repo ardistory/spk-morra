@@ -44,27 +44,29 @@ export default function Arsip({ hasilPerhitungans, auth }) {
                             <Button onClick={() => router.visit(route('arsip_detail', { uuid: hasil.uuid }))}>
                                 <ReceiptText /> Detail
                             </Button>
-                            <AlertDialog>
-                                <AlertDialogTrigger>
-                                    <Button variant={'destructive'}>
-                                        <Trash /> Hapus
-                                    </Button>
-                                </AlertDialogTrigger>
-                                <AlertDialogContent>
-                                    <AlertDialogHeader>
-                                        <AlertDialogTitle>Ingin hapus Arsip ini?</AlertDialogTitle>
-                                        <AlertDialogDescription>
-                                            Tindakan ini tidak dapat dibatalkan. Tindakan ini akan menghapus data Anda dari server.
-                                        </AlertDialogDescription>
-                                    </AlertDialogHeader>
-                                    <AlertDialogFooter>
-                                        <AlertDialogCancel>Batal</AlertDialogCancel>
-                                        <AlertDialogAction onClick={() => router.delete(route('arsip_delete', { uuid: hasil.uuid }), { onSuccess: () => toast({ title: "Arsip dihapus!", description: "Berhasil hapus Arsip!" }) })}>
-                                            Hapus
-                                        </AlertDialogAction>
-                                    </AlertDialogFooter>
-                                </AlertDialogContent>
-                            </AlertDialog>
+                            {auth.user && (
+                                <AlertDialog>
+                                    <AlertDialogTrigger>
+                                        <Button variant={'destructive'}>
+                                            <Trash /> Hapus
+                                        </Button>
+                                    </AlertDialogTrigger>
+                                    <AlertDialogContent>
+                                        <AlertDialogHeader>
+                                            <AlertDialogTitle>Ingin hapus Arsip ini?</AlertDialogTitle>
+                                            <AlertDialogDescription>
+                                                Tindakan ini tidak dapat dibatalkan. Tindakan ini akan menghapus data Anda dari server.
+                                            </AlertDialogDescription>
+                                        </AlertDialogHeader>
+                                        <AlertDialogFooter>
+                                            <AlertDialogCancel>Batal</AlertDialogCancel>
+                                            <AlertDialogAction onClick={() => router.delete(route('arsip_delete', { uuid: hasil.uuid }), { onSuccess: () => toast({ title: "Arsip dihapus!", description: "Berhasil hapus Arsip!" }) })}>
+                                                Hapus
+                                            </AlertDialogAction>
+                                        </AlertDialogFooter>
+                                    </AlertDialogContent>
+                                </AlertDialog>
+                            )}
                         </CardFooter>
                     </Card>
                 ))}
