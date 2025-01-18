@@ -42,12 +42,8 @@ export default function Home() {
                             <CardTitle>Video Tutorial</CardTitle>
                             <CardDescription>Silahkan pahami aturan perhitungan</CardDescription>
                         </CardHeader>
-                        <CardContent className={'flex items-center justify-center h-28'}>
-                            <div>
-                                <div>
-                                    <CirclePlay />
-                                </div>
-                            </div>
+                        <CardContent className={'flex items-center justify-center'}>
+                            <iframe src="https://www.youtube.com/embed/Ns32mpkYmEo?si=6-LVuC_-OJ-Tysra" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                         </CardContent>
                     </Card>
                 </div>
