@@ -16,12 +16,13 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { toast } from '@/hooks/use-toast';
-
+import Background from '@/assets/img/Perumahan.jpg';
 
 export default function Arsip({ hasilPerhitungans, auth }) {
     return (
         <AppLayout title={'Arsip'} auth={auth.user}>
-            <div className={'pt-16 grid grid-cols-1 md:grid-cols-4 gap-10 mt-10 relative before:w-96 before:h-96 before:absolute before:rounded-full before:bg-black before:left-[50%] before:top-[50%] before:translate-x-[-50%] before:translate-y-[-50%] before:blur-[200px] before:-z-10'}>
+            <img src={Background} className={'absolute top-0 left-0 -z-10 w-full h-full md:h-screen brightness-[.2] object-cover'} />
+            <div className={'pt-16 grid grid-cols-1 md:grid-cols-4 gap-10 mt-10 relative'}>
                 {hasilPerhitungans.map((hasil, index) => (
                     <Card key={index} className={'shadow-lg'}>
                         <CardHeader>

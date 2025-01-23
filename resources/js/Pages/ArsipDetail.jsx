@@ -2,6 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AppLayout from '@/Layouts/AppLayout';
+import Background from '@/assets/img/Perumahan.jpg';
 
 function KriteriaForm({ kriteria }) {
     return (
@@ -129,10 +130,11 @@ function Hasil({ results }) {
 export default function ArsipDetail({ details, auth }) {
     return (
         <AppLayout title={'Arsip Detail'} auth={auth.user}>
+            <img src={Background} className={'absolute top-0 left-0 -z-10 w-full h-full md:h-screen brightness-[.2] object-cover'} />
             <div className={'pt-16 p-4 container mx-auto'}>
                 <div className={'mb-4'}>
-                    <Label htmlFor="userName">Nama Pengguna</Label>
-                    <Input
+                    <Label className={'text-white'} htmlFor="userName">Nama Pengguna</Label>
+                    <Input className={'text-white'}
                         id="userName"
                         placeholder="Masukkan Nama Pengguna"
                         defaultValue={details[0].user_name}
