@@ -17,10 +17,11 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-import { toast, useToast } from '@/hooks/use-toast';
-import { router, useForm } from '@inertiajs/react';
+import { useToast } from '@/hooks/use-toast';
+import { useForm } from '@inertiajs/react';
 import { Calculator, CirclePlus, Save, Trash } from 'lucide-react';
 import { useEffect } from 'react';
+import Background from '@/assets/img/Perumahan.jpg';
 
 function KriteriaForm({ kriteria, setKriteria }) {
     const handleKriteriaChange = (index, field, value) => {
@@ -299,10 +300,11 @@ export default function Hitung({ auth }) {
 
     return (
         <AppLayout title={'Hitung'} auth={auth.user}>
+            <img src={Background} className={'absolute top-0 left-0 -z-10 w-full h-full md:h-screen brightness-[.2] object-cover'} />
             <div className={'pt-16 p-4 container mx-auto'}>
                 <div className={'mb-4'}>
-                    <Label htmlFor="userName">Nama Pengguna</Label>
-                    <Input
+                    <Label className={'text-white'} htmlFor="userName">Nama Pengguna</Label>
+                    <Input className={'text-white'}
                         id="userName"
                         placeholder="Masukkan Nama Pengguna"
                         value={data.userName}
@@ -317,7 +319,7 @@ export default function Hitung({ auth }) {
                     <RumahForm kriteria={data.kriteria} rumah={data.rumah} setRumah={handleRumahChange} />
                 </div>
                 <div className={'mb-8 flex justify-center'}>
-                    <Button onClick={hitung}>
+                    <Button className={'before:w-10 before:h-10 before:bg-blue-500 before:absolute before:rounded-full before:blur-[40px] shadow-2xl shadow-white'} onClick={hitung}>
                         <Calculator />Hitung
                     </Button>
                     {data.showSaveButton && (
