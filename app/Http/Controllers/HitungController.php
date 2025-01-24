@@ -16,6 +16,14 @@ class HitungController extends Controller
         ]);
     }
 
+    public function patch($uuid, $favorite)
+    {
+        $updated = HasilPerhitungan::query()->where('uuid', '=', $uuid)->update([
+            'is_favorite' => $this->stringToBoolean($favorite)
+        ]);
+        ($updated > 0) ? response(status: 200) : response(status: 500);
+    }
+
     public function delete($uuid)
     {
         $deletedRows = HasilPerhitungan::query()->where('uuid', '=', $uuid)->delete();
@@ -48,5 +56,10 @@ class HitungController extends Controller
         $hasilPerhitungan->rumah = json_encode($requestValidated['rumah']);
         $hasilPerhitungan->results = json_encode($requestValidated['results']);
         $hasilPerhitungan->save();
+    }
+
+    private function stringToBoolean($string)
+    {
+        return filter_var($string, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
     }
 }

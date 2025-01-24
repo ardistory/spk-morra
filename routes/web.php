@@ -17,6 +17,7 @@ Route::post('/hitung', [HitungController::class, 'store'])->name('hitung');
 
 Route::get('/arsip', [HitungController::class, 'index'])->name('arsip');
 Route::delete('/arsip/{uuid}', [HitungController::class, 'delete'])->name('arsip_delete');
+Route::patch('/arsip/{uuid}/{favorite}', [HitungController::class, 'patch'])->name('arsip_patch');
 Route::get('/arsip/{uuid}', [HitungController::class, 'detail'])->name('arsip_detail');
 
 Route::middleware('auth')->group(function () {

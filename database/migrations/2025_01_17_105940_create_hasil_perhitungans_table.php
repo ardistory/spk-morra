@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->json('kriteria');
             $table->json('rumah');
             $table->json('results');
+            $table->boolean('is_favorite')->default(false);
             $table->timestamps();
         });
     }

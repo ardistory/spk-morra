@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Separator } from '@/components/ui/separator';
 import AppLayout from '@/Layouts/AppLayout';
 import { router } from '@inertiajs/react';
-import { ReceiptText, Trash } from 'lucide-react';
+import { ReceiptText, Star, Trash } from 'lucide-react';
 import {
     AlertDialog,
     AlertDialogAction,
@@ -19,6 +19,7 @@ import { toast } from '@/hooks/use-toast';
 import Background from '@/assets/img/Perumahan.jpg';
 
 export default function Arsip({ hasilPerhitungans, auth }) {
+    console.log(hasilPerhitungans);
     return (
         <AppLayout title={'Arsip'} auth={auth.user}>
             <img src={Background} className={'absolute top-0 left-0 -z-10 w-full h-full md:h-screen brightness-[.2] object-cover'} />
@@ -26,8 +27,15 @@ export default function Arsip({ hasilPerhitungans, auth }) {
                 {hasilPerhitungans.map((hasil, index) => (
                     <Card key={index} className={'shadow-lg'}>
                         <CardHeader>
-                            <CardTitle>{hasil.user_name}</CardTitle>
-                            <CardDescription>Hasil Perhitungan</CardDescription>
+                            <div className={'flex items-center justify-between'}>
+                                <div>
+                                    <CardTitle>{hasil.user_name}</CardTitle>
+                                    <CardDescription>Hasil Perhitungan</CardDescription>
+                                </div>
+                                <Star fill={hasil.is_favorite ? 'yellow' : 'white'} strokeWidth={1} className={'cursor-pointer'} onClick={() => {
+                                    router.patch(route('arsip_patch', { uuid: hasil.uuid, favorite: !hasil.is_favorite }), { onSuccess: () => toast({ title: "Berhasil!", description: "Arsip ditambah ke favorit." }) });
+                                }} />
+                            </div>
                         </CardHeader>
                         <CardContent>
                             <Card className={'p-5'}>
