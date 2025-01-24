@@ -27,7 +27,7 @@ export default function Home({ auth }) {
                             <CardDescription>Silahkan pahami aturan perhitungan</CardDescription>
                         </CardHeader>
                         <CardContent className={'flex items-center justify-center'}>
-                            <iframe src="https://www.youtube.com/embed/Ns32mpkYmEo?si=6-LVuC_-OJ-Tysra" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/Ibv4i1v5rfg?si=JaDmMV-3GWopfb1r" title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullCcreen></iframe>
                         </CardContent>
                     </Card>
                 </div>
