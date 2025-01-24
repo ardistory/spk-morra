@@ -10,7 +10,7 @@ class HitungController extends Controller
 {
     public function index()
     {
-        $hasilPerhitungans = HasilPerhitungan::orderBy('created_at', 'desc')->get();
+        $hasilPerhitungans = HasilPerhitungan::orderBy('is_favorite', 'desc')->get();
         return Inertia::render('Arsip', [
             'hasilPerhitungans' => $hasilPerhitungans
         ]);
