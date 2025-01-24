@@ -32,9 +32,7 @@ export default function Arsip({ hasilPerhitungans, auth }) {
                                     <CardTitle>{hasil.user_name}</CardTitle>
                                     <CardDescription>Hasil Perhitungan</CardDescription>
                                 </div>
-                                <Star fill={hasil.is_favorite ? 'yellow' : 'white'} strokeWidth={1} className={'cursor-pointer'} onClick={() => {
-                                    router.patch(route('arsip_patch', { uuid: hasil.uuid, favorite: !hasil.is_favorite }), { onSuccess: () => toast({ title: "Berhasil!", description: "Arsip ditambah ke favorit." }) });
-                                }} />
+                                <Star fill={hasil.is_favorite ? 'yellow' : 'white'} strokeWidth={1} className={'cursor-pointer'} onClick={() => router.patch(route('arsip_patch', { uuid: hasil.uuid, favorite: !hasil.is_favorite }), {}, { onSuccess: () => toast({ title: "Berhasil!", description: `Arsip ${!hasil.is_favorite ? 'ditambah ke' : 'dihapus dari'} favorit.` }) })} />
                             </div>
                         </CardHeader>
                         <CardContent>
@@ -80,6 +78,6 @@ export default function Arsip({ hasilPerhitungans, auth }) {
                     </Card>
                 ))}
             </div>
-        </AppLayout>
+        </AppLayout >
     );
 }
